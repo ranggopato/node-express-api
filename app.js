@@ -1,3 +1,4 @@
+require("dotenv").config();
 const path = require("path");
 
 const express = require("express");
@@ -50,6 +51,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to social-media api with express by Ranggo");
+});
+
 app.use("/feed", feedRoutes);
 app.use("/auth", authRoutes);
 
@@ -60,12 +65,12 @@ app.use((error, req, res, next) => {
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
-
+const url = process.env.mongoURI;
 mongoose
-  .connect(
-    "mongodb+srv://ranggo:ranggo123@cluster0.c9ca54e.mongodb.net/?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(url || process.env.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then((result) => {
     app.listen(port, "0.0.0.0");
   })
