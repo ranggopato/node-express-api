@@ -10,6 +10,8 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -65,6 +67,6 @@ mongoose
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then((result) => {
-    app.listen(8080);
+    app.listen(port, "0.0.0.0");
   })
   .catch((err) => console.log(err));
